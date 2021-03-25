@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CursosService } from './../cursos.service';
 import { Curso } from './../models/curso';
 
@@ -14,12 +15,20 @@ import { Curso } from './../models/curso';
 
 export class CursosListaComponent implements OnInit {
 
-  cursos: Curso[] | undefined;
+  // a variavel cursos esta sendo criada no html -> ! async as cursos
+  // cursos: Curso[] | undefined;
+
+// o recurso de utilizar o $ como sufixo
+// para indicar um observable chama-se notação filandesa
+  cursos$: Observable<Curso[]> | undefined;
   constructor(private service: CursosService) { }
 
   // tslint:disable-next-line: typedef
   ngOnInit() {
-    this.service.list()
-      .subscribe((dados: any) => this.cursos = dados);
+    // subsituido pelo cursos$
+    // this.service.list()
+    //   .subscribe((dados: any) => this.cursos = dados);
+
+    this.cursos$ = this.service.list();
   }
 }
