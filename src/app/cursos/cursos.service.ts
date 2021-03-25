@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Curso } from './models/curso';
 import { tap, delay, take } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { tap, delay, take } from 'rxjs/operators';
 
 export class CursosService {
 
-  private readonly API = 'http://localhost:3000/cursos';
+// utilizando os arquivos de configuracao do angular '/environment/environment.ts'
+  private readonly API = `${environment.API}cursos`;
 
   constructor(private http: HttpClient) { }
 
