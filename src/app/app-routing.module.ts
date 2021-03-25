@@ -7,7 +7,9 @@ const routes: Routes = [
   },
   {
     path: 'cursos',
-    loadChildren: './cursos/cursos.module#CursosModule'
+    // loadChildren: './cursos/cursos.module#CursosModule'
+    // a partir do angular  8 mudou para a sintaxe abaixo
+    loadChildren: () => import('./cursos/cursos.module').then(m => m.CursosModule)
   }
 ];
 

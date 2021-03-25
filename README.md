@@ -1,5 +1,7 @@
 # RequestsHttp
 
+<!-- lembre-se de rodar o comando para observar o json desejado -> json-server --watch db.json -->
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0-next.4.
 
 ## Development server
