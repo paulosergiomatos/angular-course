@@ -17,9 +17,12 @@
     "@angular/compiler": "~12.0.0-next.4",
     "@angular/core": "~12.0.0-next.4",
     "@angular/forms": "~12.0.0-next.4",
+    "@angular/localize": "~12.0.0-next.4",
     "@angular/platform-browser": "~12.0.0-next.4",
     "@angular/platform-browser-dynamic": "~12.0.0-next.4",
     "@angular/router": "~12.0.0-next.4",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.0",
+    "bootstrap": "^4.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -41,6 +44,6 @@
     "protractor": "~7.0.0",
     "ts-node": "~9.1.1",
     "tslint": "~6.1.0",
-    "typescript": "~4.1.2"
+    "typescript": "^4.2.3"
   }
 }
