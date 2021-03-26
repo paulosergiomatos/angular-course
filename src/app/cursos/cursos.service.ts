@@ -18,7 +18,7 @@ export class CursosService {
   list(): any {
     return this.http.get<Curso[]>(this.API)
       .pipe(
-        delay(2000),
+        delay(1500), // o delay é apenas para simular o tempo de requisicao no servidor
         tap(console.log)
       );
   }
