@@ -1,3 +1,4 @@
+import { AlertModalService } from './../../shared/alert-modal.service';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable, of, Subject, EMPTY } from 'rxjs';
@@ -27,7 +28,9 @@ export class CursosListaComponent implements OnInit {
   error$ = new Subject<boolean>();
   bsModalRef: BsModalRef | undefined;
   nonErrorThrown = true;
-  constructor(private service: CursosService, private modalService: BsModalService) { }
+  constructor(private service: CursosService,
+    /* private modalService: BsModalService*/
+              private alertService: AlertModalService) { }
 
   // tslint:disable-next-line: typedef
   ngOnInit() {
@@ -52,24 +55,24 @@ export class CursosListaComponent implements OnInit {
   }
   // exemplo de subscribe usando os tres parametros da funcao:
   // 1 - sucess, 2 - error, 3 - complete
-  exemploSubscribe(): void {
-    // pode usar o pipe subsituiindo os dois ultimos parametros do subscribe
-    this.service.list()
-      .pipe(
-        catchError(error => {
-          console.error(error);
-          this.error$.next(true);
-          return of();
-        })
-      )
-      .subscribe(
-        (dados: any) => {
-          console.log(dados);
-        },
-        // (error: any) => console.error(error),
-        // () => console.log('Observable completo')
-      );
-  }
+  // exemploSubscribe(): void {
+  //   // pode usar o pipe subsituiindo os dois ultimos parametros do subscribe
+  //   this.service.list()
+  //     .pipe(
+  //       catchError(error => {
+  //         console.error(error);
+  //         this.error$.next(true);
+  //         return of();
+  //       })
+  //     )
+  //     .subscribe(
+  //       (dados: any) => {
+  //         console.log(dados);
+  //       },
+  //       // (error: any) => console.error(error),
+  //       // () => console.log('Observable completo')
+  //     );
+  // }
 
   handleError(): void {
     // note que o AlertModalComponent não tem instancia ou seja é criado em tempo de execucao
@@ -78,8 +81,9 @@ export class CursosListaComponent implements OnInit {
     // AlertModalComponent não possui um template ou roteamento que o utilize
     // quando utilizar o entryComponents é necessário importar o modulo (sharedmodule) no appmodule
     this.nonErrorThrown = false;
-    this.bsModalRef = this.modalService.show(AlertModalComponent);
+    /*this.bsModalRef = this.modalService.show(AlertModalComponent);
     this.bsModalRef.content.type = 'danger';
-    this.bsModalRef.content.message = 'Erro ao carregar cursos. Tente novamente mais tarde.';
+    this.bsModalRef.content.message = 'Erro ao carregar cursos. Tente novamente mais tarde.';*/
+    this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente mais tarde.');
   }
 }
