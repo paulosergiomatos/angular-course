@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { CursosService } from './../cursos.service';
+import { AlertModalService } from './../../shared/alert-modal.service';
 
 @Component({
   selector: 'app-cursos-form',
@@ -15,7 +17,8 @@ export class CursosFormComponent implements OnInit {
     quantity: new FormControl('11')
   });
   submitted = false;
-  constructor(private http: HttpClient, private fb: FormBuilder) { }
+  constructor(private http: HttpClient, private fb: FormBuilder, private service: CursosService,
+              private modal: AlertModalService, private location: Location ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -33,7 +36,16 @@ export class CursosFormComponent implements OnInit {
     console.log(this.form.value);
     if (this.form.valid) {
       console.log('submit');
-
+      // não esqueça de usar o subscribe para ativar o observable
+      this.service.create(this.form.value).subscribe(
+        () =>  {this.modal.showAlertSuccess('sucesso');
+                this.location.back();
+        }
+         //this.modal.showAlertDanger('Erro ao criar curso, tente novamente!')
+        // success => console.log('sucesso'),
+        // error => console.error(error),
+        // () => console.log('request completado')
+      );
       let msgSuccess = 'Curso criado com sucesso!';
       let msgError = 'Erro ao criar curso, tente novamente!';
       if (this.form.value.id) {

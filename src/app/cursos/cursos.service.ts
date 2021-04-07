@@ -10,7 +10,7 @@ import { environment } from './../../environments/environment';
 
 export class CursosService {
 
-// utilizando os arquivos de configuracao do angular '/environment/environment.ts'
+  // utilizando os arquivos de configuracao do angular '/environment/environment.ts'
   private readonly API = `${environment.API}cursos`;
 
   constructor(private http: HttpClient) { }
@@ -22,4 +22,10 @@ export class CursosService {
         tap(console.log)
       );
   }
+
+  create(curso: Curso): any {
+    // utilizando o take(1) para ja finalizar o observable após a operação
+    return this.http.post(this.API, curso).pipe(take(1));
+  }
+
 }
