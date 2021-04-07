@@ -41,7 +41,7 @@ export class CursosFormComponent implements OnInit {
         () =>  {this.modal.showAlertSuccess('sucesso');
                 this.location.back();
         }
-         //this.modal.showAlertDanger('Erro ao criar curso, tente novamente!')
+         // this.modal.showAlertDanger('Erro ao criar curso, tente novamente!')
         // success => console.log('sucesso'),
         // error => console.error(error),
         // () => console.log('request completado')
