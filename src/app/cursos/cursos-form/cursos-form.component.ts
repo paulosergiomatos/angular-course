@@ -44,46 +44,47 @@ export class CursosFormComponent implements OnInit {
     // );
 
     // dica: quando utiliza o route.params o angular se encarrega de fazer o unsubscribe
-    this.route.params
-    // utilizando o pipe para obter o id a partir do map
-    .pipe(
-      map ((params: any) => params.id),
-      // usando switchMap para fazer a chamada do segundo observable
-      switchMap(id => this.service.loadByID(id))
-      // se necessário poderia fazer um segundo switchMap(cursos => obterAulas) por exemplo
-      // switchMap retorna um observable e por isto podemos fazer o subscribe abaixo
-      // https://tableless.com.br/entendendo-rxjs-observable-com-angular/
-      // quando alteramos a url de chamado (tipo mudando de cursos/editar/1 para cursos/editar/2)
-      // varias vezes ... o switchMap só considera a ultima e descarta as anteriores mas existem outros
-      // operadores que fazem consideram: veja abaixo
-      // concatMap => processa e devolve na ordem que receber
-      // mergeMap => ordem nao importa
-      // exhasutMap => não processa a proxima até receber a atual (muito usado para login)
+    // this.route.params
+    // // utilizando o pipe para obter o id a partir do map
+    // .pipe(
+    //   map ((params: any) => params.id),
+    //   // usando switchMap para fazer a chamada do segundo observable
+    //   switchMap(id => this.service.loadByID(id))
+    //   // se necessário poderia fazer um segundo switchMap(cursos => obterAulas) por exemplo
+    //   // switchMap retorna um observable e por isto podemos fazer o subscribe abaixo
+    //   // https://tableless.com.br/entendendo-rxjs-observable-com-angular/
+    //   // quando alteramos a url de chamado (tipo mudando de cursos/editar/1 para cursos/editar/2)
+    //   // varias vezes ... o switchMap só considera a ultima e descarta as anteriores mas existem outros
+    //   // operadores que fazem consideram: veja abaixo
+    //   // concatMap => processa e devolve na ordem que receber
+    //   // mergeMap => ordem nao importa
+    //   // exhasutMap => não processa a proxima até receber a atual (muito usado para login)
 
-    )
-    // tslint:disable-next-line: deprecation
-    .subscribe(
-        (curso) => {
-          // cast de unknow para Curso
-          this.updateForm(curso as Curso);
-        }
-      );
+    // )
+    // // tslint:disable-next-line: deprecation
+    // .subscribe(
+    //     (curso) => {
+    //       // cast de unknow para Curso
+    //       this.updateForm(curso as Curso);
+    //     }
+    //   );
 
+    const curso = this.route.snapshot.data.curso;
 
     // como o  metodo de load é asincrono é necessário inicializar o form com valores null
     // que depois receberá os dados pelo metodo, no caso, updateForm
     this.form = this.fb.group({
-      id: [null],
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
     });
   }
 
-  updateForm(curso: Curso): void{
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    });
-  }
+  // updateForm(curso: Curso): void{
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   });
+  // }
 
 
   hasError(field: string): any {
