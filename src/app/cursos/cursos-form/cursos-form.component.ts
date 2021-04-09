@@ -1,9 +1,12 @@
+import { Curso } from './../models/curso';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CursosService } from './../cursos.service';
 import { AlertModalService } from './../../shared/alert-modal.service';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cursos-form',
@@ -17,14 +20,71 @@ export class CursosFormComponent implements OnInit {
     quantity: new FormControl('11')
   });
   submitted = false;
-  constructor(private http: HttpClient, private fb: FormBuilder, private service: CursosService,
-              private modal: AlertModalService, private location: Location ) { }
+  course: Curso | undefined;
+  constructor(private http: HttpClient,
+              private fb: FormBuilder,
+              private service: CursosService,
+              private modal: AlertModalService,
+              private location: Location,
+              private route: ActivatedRoute
+              ) { }
 
   ngOnInit(): void {
+
+    // tslint:disable-next-line: deprecation
+    // this.route.params.subscribe(
+    //   (params: any) => {
+    //     const id = params.id;
+    //     console.log(id);
+    //     const curso$ = this.service.loadByID(id);
+    //     curso$.subscribe((curso: any) => {
+    //       this.updateForm(curso);
+    //     });
+    //   }
+    // );
+
+    // dica: quando utiliza o route.params o angular se encarrega de fazer o unsubscribe
+    this.route.params
+    // utilizando o pipe para obter o id a partir do map
+    .pipe(
+      map ((params: any) => params.id),
+      // usando switchMap para fazer a chamada do segundo observable
+      switchMap(id => this.service.loadByID(id))
+      // se necessário poderia fazer um segundo switchMap(cursos => obterAulas) por exemplo
+      // switchMap retorna um observable e por isto podemos fazer o subscribe abaixo
+      // https://tableless.com.br/entendendo-rxjs-observable-com-angular/
+      // quando alteramos a url de chamado (tipo mudando de cursos/editar/1 para cursos/editar/2)
+      // varias vezes ... o switchMap só considera a ultima e descarta as anteriores mas existem outros
+      // operadores que fazem consideram: veja abaixo
+      // concatMap => processa e devolve na ordem que receber
+      // mergeMap => ordem nao importa
+      // exhasutMap => não processa a proxima até receber a atual (muito usado para login)
+
+    )
+    // tslint:disable-next-line: deprecation
+    .subscribe(
+        (curso) => {
+          // cast de unknow para Curso
+          this.updateForm(curso as Curso);
+        }
+      );
+
+
+    // como o  metodo de load é asincrono é necessário inicializar o form com valores null
+    // que depois receberá os dados pelo metodo, no caso, updateForm
     this.form = this.fb.group({
+      id: [null],
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
     });
   }
+
+  updateForm(curso: Curso): void{
+    this.form.patchValue({
+      id: curso.id,
+      nome: curso.nome
+    });
+  }
+
 
   hasError(field: string): any {
     const res = this.form?.get(field)?.errors;
@@ -38,10 +98,11 @@ export class CursosFormComponent implements OnInit {
       console.log('submit');
       // não esqueça de usar o subscribe para ativar o observable
       this.service.create(this.form.value).subscribe(
-        () =>  {this.modal.showAlertSuccess('sucesso');
-                this.location.back();
+        () => {
+          this.modal.showAlertSuccess('sucesso');
+          this.location.back();
         }
-         // this.modal.showAlertDanger('Erro ao criar curso, tente novamente!')
+        // this.modal.showAlertDanger('Erro ao criar curso, tente novamente!')
         // success => console.log('sucesso'),
         // error => console.error(error),
         // () => console.log('request completado')
