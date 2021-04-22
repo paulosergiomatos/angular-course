@@ -23,14 +23,25 @@ export class CursosService {
       );
   }
 
-  loadByID(id: number): any{
+  loadByID(id: number): any {
     // dica: quando utiliza o take(1) o angular ja faz o unsubscribe
     return this.http.get<Curso>(`${this.API}/${id}`).pipe(take(1));
   }
 
-  create(curso: Curso): any {
+  private create(curso: Curso): any {
     // utilizando o take(1) para ja finalizar o observable após a operação
     return this.http.post(this.API, curso).pipe(take(1));
+  }
+
+  private update(curso: Curso): any {
+    return this.http.put(`${this.API}/${curso.id}`, curso).pipe(take(1));
+  }
+
+  save(curso: Curso): any {
+    if (curso.id > 0) {
+      return  this.update(curso);
+    }
+    return this.create(curso);
   }
 
 }
