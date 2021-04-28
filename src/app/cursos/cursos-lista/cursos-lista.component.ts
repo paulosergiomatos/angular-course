@@ -1,5 +1,5 @@
 import { AlertModalService } from './../../shared/alert-modal.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable, of, Subject, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -29,8 +29,16 @@ export class CursosListaComponent implements OnInit {
   error$ = new Subject<boolean>();
   bsModalRef: BsModalRef | undefined;
   nonErrorThrown = true;
+  deleteModalRef: BsModalRef | undefined;
+
+  // permite fazer referencia ao elemento da view => referencia ng-template #deleteModal no html
+  @ViewChild('deleteModal') deleteModal: any;
+
+  // é necessário para guardar a informação e utilizar depois do popup de exclusao
+  cursoSelecionado: Curso | undefined;
+
   constructor(private service: CursosService,
-    /* private modalService: BsModalService*/
+              private modalService: BsModalService,
               private alertService: AlertModalService,
               private router: Router, private route: ActivatedRoute) { }
 
@@ -90,8 +98,31 @@ export class CursosListaComponent implements OnInit {
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['editar', id], {relativeTo: this.route});
+    this.router.navigate(['editar', id], { relativeTo: this.route });
   }
 
+  onDelete(curso: Curso): void {
+    this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' });
+    this.cursoSelecionado = curso;
+  }
+
+  onConfirmDelete(): void {
+    this.service.remove(this.cursoSelecionado?.id)
+    .subscribe(
+      (success: any) => this.onRefresh(),
+      (error: any) => {
+        this.alertService.showAlertDanger('Erro ao remover curso. Tente novamente mais tarde.');
+        this.deleteModalRef?.hide();
+      },
+      (completed: any) => {
+        console.log('Request completed');
+        this.deleteModalRef?.hide();
+      }
+    );
+  }
+
+  onDeclineDelete(): void {
+    this.deleteModalRef?.hide();
+  }
 
 }

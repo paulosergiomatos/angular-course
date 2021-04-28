@@ -10,7 +10,7 @@
   </div>
 
   <div class="card-body">
-    <table class="table table-hover" *ngIf="cursos$ | async as cursos; else loadingError"  >
+    <table class="table table-hover" *ngIf="cursos$ | async as cursos; else loadingError">
       <thead>
         <tr>
           <th>#</th>
@@ -24,11 +24,11 @@
           <td>{{curso.nome}}</td>
           <td>
             <span class="float-right">
-              <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(curso.id)" >
+              <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(curso.id)">
                 Atualizar
               </button>
 
-              <button class="btn btn-outline-danger mb-1 btn-sm">
+              <button class="btn btn-outline-danger mb-1 btn-sm" (click)="onDelete(curso)">
                 Remover
               </button>
             </span>
@@ -38,13 +38,12 @@
     </table>
     <!-- TODO: TRANSFORMAR EM COMPONENTE -->
     <ng-template #loadingError>
-      <div *ngIf="error$ | async; else loading" >
+      <div *ngIf="error$ | async; else loading">
         Erro ao carregar cursos. Tente novamente mais tarde.
       </div>
       <ng-template #loading>
         <div *ngIf="nonErrorThrown" class="d-flex align-items-center">
-          <span class="spinner-grow spinner-grow-sm bg-primary" role="status"
-          aria-hidden="true"></span>
+          <span class="spinner-grow spinner-grow-sm bg-primary" role="status" aria-hidden="true"></span>
           <strong class="text-primary" style="padding-left: 5px;">Carregando Cursos...</strong>
         </div>
       </ng-template>
@@ -55,7 +54,7 @@
 <ng-template #deleteModal>
   <div class="modal-body text-center">
     <p>Tem certeza que deseja remover esse curso?</p>
-    <!-- <button type="button" class="btn btn-default" (click)="onConfirmDelete()">Sim</button>
-    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">Nao</button> -->
+    <button type="button" class="btn btn-default" (click)="onConfirmDelete()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">Nao</button>
   </div>
 </ng-template>
