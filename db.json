@@ -6,11 +6,19 @@
     },
     {
       "id": 2,
-      "nome": "Javalindo"
+      "nome": "Java"
     },
     {
       "nome": "Angular Material",
       "id": 3
+    },
+    {
+      "nome": "Phyton",
+      "id": 5
+    },
+    {
+      "nome": "Lisp",
+      "id": 6
     }
   ]
 }

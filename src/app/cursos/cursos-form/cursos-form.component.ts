@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CursosService } from './../cursos.service';
+// import { CursosService } from './../cursos.service';
 import { AlertModalService } from './../../shared/alert-modal.service';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
+import { Cursos2Service } from '../cursos2.service';
 
 @Component({
   selector: 'app-cursos-form',
@@ -23,7 +24,7 @@ export class CursosFormComponent implements OnInit {
   course: Curso | undefined;
   constructor(private http: HttpClient,
               private fb: FormBuilder,
-              private service: CursosService,
+              private service: Cursos2Service,
               private modal: AlertModalService,
               private location: Location,
               private route: ActivatedRoute

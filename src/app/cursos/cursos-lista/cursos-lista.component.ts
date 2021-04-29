@@ -3,10 +3,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable, of, Subject, EMPTY } from 'rxjs';
 import { catchError, take, switchMap, isEmpty } from 'rxjs/operators';
-import { CursosService } from './../cursos.service';
+// import { CursosService } from './../cursos.service';
+import { Cursos2Service } from '../cursos2.service';
 import { Curso } from './../models/curso';
 import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component'; // nao esquecer de declarar no sharedModule exports
 import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-cursos-lista',
@@ -36,8 +38,8 @@ export class CursosListaComponent implements OnInit {
 
   // é necessário para guardar a informação e utilizar depois do popup de exclusao
   cursoSelecionado: Curso | undefined;
-
-  constructor(private service: CursosService,
+// service: CursosService
+  constructor(private service: Cursos2Service,
               private modalService: BsModalService,
               private alertService: AlertModalService,
               private router: Router, private route: ActivatedRoute) { }
