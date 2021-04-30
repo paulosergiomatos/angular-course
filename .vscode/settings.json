@@ -1,12 +1,19 @@
+
 {
+  "cSpell.ignoreRegExpList": [
+    ".*"
+  ],
     "cSpell.words": [
         "Arquivo",
         "Selecionar",
         "Servidor",
+        "automaticamente",
         "comando",
         "criar",
         "depois",
         "diferentes",
+        "duplicados",
+        "expurgo",
         "iniciado",
         "inicializar",
         "instale",
@@ -14,6 +21,7 @@
         "porta",
         "portas",
         "projeto",
-        "rodar"
+        "rodar",
+        "tipo"
     ]
 }
