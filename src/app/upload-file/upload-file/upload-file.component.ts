@@ -1,8 +1,11 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { UploadFileService } from './../../upload-file.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { InputFiles } from 'typescript';
 import { Subscription } from 'rxjs';
+import { AlertModalService } from './../../shared/alert-modal.service';
+
 
 @Component({
   selector: 'app-upload-file',
@@ -11,11 +14,12 @@ import { Subscription } from 'rxjs';
 })
 export class UploadFileComponent implements OnInit {
 
-  constructor(private service: UploadFileService) { }
+  constructor(private service: UploadFileService, private alertService: AlertModalService) { }
 
   // o tipo Set faz automaticamente o expurgo de dados duplicados... caso o usuario selecione o mesmo arquivo duas vezes
   files: Set<File> | undefined;
   subscription$: Subscription = new Subscription();
+  progress = 0;
 
   ngOnInit(): void {
   }
@@ -41,6 +45,7 @@ export class UploadFileComponent implements OnInit {
         }
       }
       lbl.innerHTML = fileNames.join(', ');
+      this.progress = 0;
     }
   }
   onUpload(): any {
@@ -50,7 +55,20 @@ export class UploadFileComponent implements OnInit {
       const obs = this.service.upload(this.files, `${environment.BASE_URL}/upload`);
       // o /api é convencao para separar  rota e url do backend
       this.subscription$ = obs
-        .subscribe((response: any) => console.log('Upload concluido'));
+        .subscribe((event: HttpEvent<object>) => {
+          console.log(event);
+          if (event.type === HttpEventType.Response) {
+            this.alertService.showAlertSuccess('Arquivo carregado com sucesso');
+            console.log('Upload concluido');
+          }
+          else if (event.type === HttpEventType.UploadProgress) {
+            if (event.total) {
+              const percentDone = Math.round((event.loaded * 100) / (event.total > 0 ? event.total : 1));
+              console.log('Progresso', percentDone);
+              this.progress = percentDone;
+            }
+          }
+        });
     }
   }
 
