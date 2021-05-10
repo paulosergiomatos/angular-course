@@ -1,3 +1,4 @@
+import { pipe } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
@@ -5,6 +6,7 @@ import { UploadFileService } from './../../upload-file.service';
 import { InputFiles } from 'typescript';
 import { Subscription } from 'rxjs';
 import { AlertModalService } from './../../shared/alert-modal.service';
+import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators';
 
 
 @Component({
@@ -55,20 +57,31 @@ export class UploadFileComponent implements OnInit {
       const obs = this.service.upload(this.files, `${environment.BASE_URL}/upload`);
       // o /api é convencao para separar  rota e url do backend
       this.subscription$ = obs
-        .subscribe((event: HttpEvent<object>) => {
-          console.log(event);
-          if (event.type === HttpEventType.Response) {
-            this.alertService.showAlertSuccess('Arquivo carregado com sucesso');
-            console.log('Upload concluido');
-          }
-          else if (event.type === HttpEventType.UploadProgress) {
-            if (event.total) {
-              const percentDone = Math.round((event.loaded * 100) / (event.total > 0 ? event.total : 1));
-              console.log('Progresso', percentDone);
-              this.progress = percentDone;
-            }
-          }
-        });
+        .pipe(
+          uploadProgress(progress => {
+            console.log(progress);
+            this.progress = progress;
+          }),
+          filterResponse() // depois que receber o response ... pode considerar concluido
+        )
+        .subscribe(() => this.alertService.showAlertSuccess('Arquivo carregado com sucesso'));
+
+
+        // .subscribe((event: HttpEvent<object>) => {
+        //   // console.log(event);
+        //   if (event.type === HttpEventType.Response) {
+        //     this.alertService.showAlertSuccess('Arquivo carregado com sucesso');
+        //     // console.log('Upload concluido');
+        //   }
+        //   else if (event.type === HttpEventType.UploadProgress) {
+        //     if (event.total) {
+        //       const percentDone = Math.round((event.loaded * 100) / (event.total > 0 ? event.total : 1));
+        //       // console.log('Progresso', percentDone);
+        //       this.progress = percentDone;
+        //     }
+        //   }
+        // }
+        // );
     }
   }
 

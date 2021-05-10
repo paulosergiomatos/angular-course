@@ -1,10 +1,13 @@
+para carregar este proxy ao iniciar a aplicacao... utilize o comando:
+npm run start primeiro pasta ..paulo-angular\requests-http\server e em um segundo terminal rode o mesmo comando npm run start na past ..paulo-angular\requests-http
+
 os arquivos 'proxy.conf.js' e 'proxy.conf.json' são utilizados para configurar o proxy 
 do angular para não ter que utilizar o cors. Pode usar um ou o outro e tem que referenciar no
 package.json : como no trecho abaixo
 
 "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.con.js",
+    "start": "ng serve --proxy-config proxy.conf.js",
 
 para utilizar as configurações que estão no proxy.conf.js ... pathRewrite utilize o comando
 npm run start ao inves do ng server 
