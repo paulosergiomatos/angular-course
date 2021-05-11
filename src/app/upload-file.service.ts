@@ -24,4 +24,48 @@ export class UploadFileService {
     }); // {observe: 'events'} utilizando o parametro options para observar eventos
     // reportProgress:  true para capturar eventos de progresso do upload (SÓ SERVE PARA UPLOAD E DOWNLOAD)
   }
+
+  download(url: string): any {
+    return this.http.get(url, {
+      responseType: 'blob' as 'json',
+      // reportProgress precisa do  content-lenght retornado pelo backend
+    });
+  }
+
+  handleFile(res: any, fileName: string): any {
+    // logica para download do blob utilizando javascript
+            // criando um blob do arquivo e definindo o tipo
+            const file = new Blob([res], {
+              type: res.type
+            });
+
+
+            // para quem utiliza IE
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+              window.navigator.msSaveOrOpenBlob(file);
+              return;
+            }
+
+            // associando o blob com a janela do browser
+            const blob = window.URL.createObjectURL(file);
+
+            // criando um elemento link com o DOM do JS para disparar o download
+            const link = document.createElement('a');
+            link.href = blob;
+            link.download = fileName;
+
+            // link.click(); // não funciona no firefox... o codigo abaixo funcionara no chrome e firefox
+            link.dispatchEvent(new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            }));
+
+            // o firefox precisa de um delay para conseguir fazer a limpeza pode ser bem pequeno 100ms
+            setTimeout(() => {
+              // limpando os objetos criados dinamicamente
+              window.URL.revokeObjectURL(blob);
+              link.remove();
+            }, 100);
+      }
 }
