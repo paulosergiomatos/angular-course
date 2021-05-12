@@ -7,10 +7,10 @@
           id="myInput"
           class="form-control"
           [formControl]="queryField"
-          placeholder="Pesquisar Libs"
+          placeholder="Pesquisar Libs no CDN"
         />
       </div>
-      <div class="col-auto">
+      <div class="col-auto" style="visibility: hidden;" >
         <button class="btn btn-lg btn-success" (click)="onSearch()">
           Pesquisar
         </button>
