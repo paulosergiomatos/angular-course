@@ -2,6 +2,8 @@ build producao
 no terminal rode o comando ng build --configuration production
 sempre consulte a documentacao https://angular.io/cli/build
 
+para configuracao do firebase e deploy manual veja a aula => https://www.youtube.com/watch?v=3DBTJWj9sI8
+
 
 para carregar este proxy ao iniciar a aplicacao... utilize o comando:
 npm run start primeiro pasta ..paulo-angular\requests-http\server e em um segundo terminal rode o mesmo comando npm run start na past ..paulo-angular\requests-http
