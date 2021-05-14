@@ -34,7 +34,7 @@ export class LibSearchComponent implements OnInit {
             search: value,
             fields: this.FIELDS
           }
-        })), // usando este operador vc evita sobrecarga de requisiçoes pois este cancela requisicoes anteriores 
+        })), // usando este operador vc evita sobrecarga de requisiçoes pois este cancela requisicoes anteriores
         tap((res: any) => this.total = res.total), // uso o tap para passar o valor para a minha variavel
         map((res: any) => res.results)
       );
