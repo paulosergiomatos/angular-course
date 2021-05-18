@@ -1,6 +1,6 @@
-import { LibSearchComponent } from './lib-search/lib-search.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { LibSearchComponent } from './lib-search/lib-search.component';
 
 const routes: Routes = [
   {

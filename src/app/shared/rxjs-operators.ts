@@ -2,23 +2,17 @@ import { pipe } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 
-
-// tslint:disable-next-line: typedef
 export function filterResponse<T>() {
   return pipe(
-    filter((event: any) => event.type === HttpEventType.Response),
+    filter((event: HttpEvent<T>) => event.type === HttpEventType.Response),
     map((res: HttpResponse<T>) => res.body)
   );
 }
 
-// tslint:disable-next-line: typedef
 export function uploadProgress<T>(cb: (progress: number) => void) {
   return tap((event: HttpEvent<T>) => {
     if (event.type === HttpEventType.UploadProgress) {
-      if (event.total) {
-        cb(Math.round((event.loaded * 100) / (event.total > 0 ? event.total : 1)));
-      }
+      cb(Math.round((event.loaded * 100) / event.total));
     }
   });
 }
-

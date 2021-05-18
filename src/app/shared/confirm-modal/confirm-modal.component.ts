@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 
@@ -8,32 +8,31 @@ import { Subject } from 'rxjs';
   styleUrls: ['./confirm-modal.component.scss']
 })
 export class ConfirmModalComponent implements OnInit {
-  @Input() title: string | undefined;
-  @Input() msg: string | undefined;
+
+  @Input() title: string;
+  @Input() msg: string;
   @Input() cancelTxt = 'Cancelar';
   @Input() okTxt = 'Sim';
 
-  confirmResult: Subject<boolean> = new Subject();
+  confirmResult: Subject<boolean>;
 
-  constructor(private bsModalRef: BsModalRef) { }
+  constructor(public bsModalRef: BsModalRef) { }
 
-  ngOnInit(): any {
+  ngOnInit() {
     this.confirmResult = new Subject();
   }
 
-  onConfirm(): any{
-    this.setConfirmResultAndHide(true);
+  onConfirm() {
+    this.confirmAndClose(true);
   }
 
-  onClose(): void{
-    this.setConfirmResultAndHide(false);
+  onClose() {
+    this.confirmAndClose(false);
   }
 
-  private setConfirmResultAndHide(val: boolean): void
-  {
-    this.confirmResult?.next(val);
+  private confirmAndClose(value: boolean) {
+    this.confirmResult.next(value);
     this.bsModalRef.hide();
   }
-
 
 }

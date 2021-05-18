@@ -1,17 +1,16 @@
-import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReactiveSearchRoutingModule } from './reactive-search-routing.module';
 import { LibSearchComponent } from './lib-search/lib-search.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [LibSearchComponent],
   imports: [
     CommonModule,
     ReactiveSearchRoutingModule,
-    ReactiveFormsModule // não esquecer de importar aqui... para as diretivas do formControl
+    ReactiveFormsModule
   ]
 })
 export class ReactiveSearchModule { }

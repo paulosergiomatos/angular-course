@@ -7,13 +7,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PocBaseComponent implements OnInit {
 
-  @Input() nome = '';
-  @Input() valor = '';
-  @Input() estilo = '';
+  @Input() nome: string;
+  @Input() valor: string;
+  @Input() estilo: string;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }

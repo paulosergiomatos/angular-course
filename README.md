@@ -1,9 +1,8 @@
 # RequestsHttp
 
-<!-- lembre-se de rodar o comando para observar o json desejado -> 
-json-server --watch db.json -->
+json-server --watch db.json
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0-next.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
 
 ## Development server
 
@@ -27,4 +26,4 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

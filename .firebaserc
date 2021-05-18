@@ -1,5 +1,11 @@
 {
-  "projects": {
-    "default": "curso-angular-psm"
+  "targets": {
+    "curso-angular-paulo": {
+      "hosting": {
+        "requests-http": [
+          "curso-angular-paulo"
+        ]
+      }
+    }
   }
 }

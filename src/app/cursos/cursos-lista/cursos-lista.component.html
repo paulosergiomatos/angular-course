@@ -8,9 +8,8 @@
       <button type="button" class="btn btn-secondary" (click)="onRefresh()">Atualizar</button>
     </div>
   </div>
-
   <div class="card-body">
-    <table class="table table-hover" *ngIf="cursos$ | async as cursos; else loadingError">
+    <table class="table table-hover" *ngIf="(cursos$ | async) as cursos; else loading">
       <thead>
         <tr>
           <th>#</th>
@@ -20,8 +19,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let curso of cursos">
-          <td>{{curso.id}}</td>
-          <td>{{curso.nome}}</td>
+          <td>{{ curso.id }}</td>
+          <td>{{ curso.nome }}</td>
           <td>
             <span class="float-right">
               <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(curso.id)">
@@ -36,18 +35,19 @@
         </tr>
       </tbody>
     </table>
-    <!-- TODO: TRANSFORMAR EM COMPONENTE -->
-    <ng-template #loadingError>
-      <div *ngIf="error$ | async; else loading">
+
+    <ng-template #loading>
+      <span>Carregando Cursos...</span>
+    </ng-template>
+
+    <!--ng-template #loadingError>
+      <div *ngIf="error$ | async; else loading" >
         Erro ao carregar cursos. Tente novamente mais tarde.
       </div>
       <ng-template #loading>
-        <div *ngIf="nonErrorThrown" class="d-flex align-items-center">
-          <span class="spinner-grow spinner-grow-sm bg-primary" role="status" aria-hidden="true"></span>
-          <strong class="text-primary" style="padding-left: 5px;">Carregando Cursos...</strong>
-        </div>
+          <span>Carregando Cursos...</span>
       </ng-template>
-    </ng-template>
+    </ng-template -->
   </div>
 </div>
 
