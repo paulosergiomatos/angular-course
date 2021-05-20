@@ -1,11 +1,14 @@
 {
   "targets": {
-    "curso-angular-paulo": {
+    "curso-angular-psm": {
       "hosting": {
         "requests-http": [
-          "curso-angular-paulo"
+          "curso-angular-psm"
         ]
       }
     }
+  },
+  "projects": {
+    "default": "curso-angular-psm"
   }
 }
